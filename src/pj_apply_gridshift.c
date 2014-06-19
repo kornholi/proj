@@ -85,7 +85,7 @@ int pj_apply_gridshift_2( PJ *defn, int inverse,
                           double *x, double *y, double *z )
 
 {
-    if( defn->gridlist == NULL )
+    if( defn->gridlist_count == -1 )
     {
         defn->gridlist = 
             pj_gridlist_from_nadgrids( pj_get_ctx( defn ),
@@ -95,7 +95,16 @@ int pj_apply_gridshift_2( PJ *defn, int inverse,
         if( defn->gridlist == NULL || defn->gridlist_count == 0 )
             return defn->ctx->last_errno;
     }
-     
+    
+    // FIXME: If count is 0, gridshift_3 will return an error.
+    // We assume that if count is 0, there was no error but that
+    // it is empty.
+    
+    if( defn->gridlist_count == 0 )
+    {
+        return 0;
+    }
+
     return pj_apply_gridshift_3( pj_get_ctx( defn ),
                                  defn->gridlist, defn->gridlist_count, inverse, 
                                  point_count, point_offset, x, y, z );

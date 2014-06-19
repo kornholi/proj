@@ -301,7 +301,7 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
     strcpy( PIN->axis, "enu" );
 
     PIN->gridlist = NULL;
-    PIN->gridlist_count = 0;
+    PIN->gridlist_count = -1;
 
     PIN->vgridlist_geoid = NULL;
     PIN->vgridlist_geoid_count = 0;
